@@ -1,7 +1,7 @@
 package com.vrindawan.tiffin.service;
 
 import com.vrindawan.tiffin.dto.UserDTO;
-import com.vrindawan.tiffin.exception.UserAlreadyExistsException;
+import com.vrindawan.tiffin.controller.userController.exception.UserAlreadyExistsException;
 import com.vrindawan.tiffin.model.user.UserEntity;
 import com.vrindawan.tiffin.repository.UserRepository;
 import org.slf4j.Logger;
@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserService {
@@ -30,5 +33,12 @@ public class UserService {
         logger.info("User created successfully with UID: {}", savedUser.getUid());
         return savedUser;
     }
+
+    public List<UserDTO> fetchAllUsers() {
+        logger.info("Fetching all users");
+        List<UserEntity> users = userRepository.findAll();
+        return users.stream().map(UserEntity::toDto).toList();
+    }
+
 
 }

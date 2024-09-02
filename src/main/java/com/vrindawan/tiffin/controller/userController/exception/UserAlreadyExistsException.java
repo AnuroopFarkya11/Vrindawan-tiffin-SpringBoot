@@ -1,4 +1,4 @@
-package com.vrindawan.tiffin.exception;
+package com.vrindawan.tiffin.controller.userController.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
 

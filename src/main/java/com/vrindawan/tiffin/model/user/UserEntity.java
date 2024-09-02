@@ -98,4 +98,14 @@ public class UserEntity {
         user.updatedAt = LocalDateTime.now();
         return user;
     }
+    public UserDTO toDto() {
+        UserDTO dto = new UserDTO();
+        dto.setUid(this.uid);
+        dto.setName(this.name);
+        dto.setAddress(this.address);
+        dto.setNumber(this.number);
+        dto.setRole(this.role);
+        dto.setLocation(this.location);
+        return dto;
+    }
 }
