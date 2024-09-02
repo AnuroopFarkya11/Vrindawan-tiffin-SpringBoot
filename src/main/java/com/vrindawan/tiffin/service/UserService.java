@@ -83,6 +83,16 @@ public class UserService {
         return savedEntity.toDto();
     }
 
+    @Transactional
+    public void deleteUserById(String uid) {
+        logger.info("Attempting to delete user with UID: {}", uid);
+        if (userRepository.existsById(uid)) {
+            userRepository.deleteById(uid);
+            logger.info("User deleted successfully with UID: {}", uid);
+        } else {
+            throw new UserNotFoundException("User with UID " + uid + " not found.");
+        }
+    }
 
 
 }

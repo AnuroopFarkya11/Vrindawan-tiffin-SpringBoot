@@ -1,6 +1,7 @@
 package com.vrindawan.tiffin.controller.userController;
 
 import com.vrindawan.tiffin.dto.UserDTO;
+import com.vrindawan.tiffin.exception.ExceptionResponse;
 import com.vrindawan.tiffin.model.user.UserEntity;
 import com.vrindawan.tiffin.service.UserService;
 import jakarta.validation.Valid;
@@ -49,12 +50,20 @@ public class UserController {
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
-    @PutMapping("id/{uid}")
+    @PutMapping("/id/{uid}")
     public ResponseEntity<UserDTO> updateUserEntity(@PathVariable String uid, @RequestBody UserDTO userDTO) {
         logger.info("Received request to update user with UID : {}", uid);
         UserDTO updatedUserDTO = service.updateUser(uid,userDTO);
         logger.info("User with UID: {} updated successfully", uid);
         return new ResponseEntity<>(updatedUserDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/id/{uid}")
+    public ResponseEntity<ExceptionResponse> removeUser(@PathVariable String uid){
+        logger.info("Received request to delete user with UID : {}", uid);
+        service.deleteUserById(uid);
+        return new ResponseEntity<>(new ExceptionResponse("User deleted successfully", "User with UID: " + uid + " was deleted"), HttpStatus.OK);
+
     }
 
 
