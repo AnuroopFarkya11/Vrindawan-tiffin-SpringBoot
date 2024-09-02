@@ -14,7 +14,7 @@ public class UserEntity {
     private String uid;
     private String name;
     private String address;
-    private long number;
+    private Long number;
     private UserRole role;
     private Location location;
     private LocalDateTime createdAt;
@@ -24,7 +24,6 @@ public class UserEntity {
     public String getUid() {
         return uid;
     }
-
 
 
     public Location getLocation() {
@@ -55,11 +54,11 @@ public class UserEntity {
         this.address = address;
     }
 
-    public long getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(long number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 
@@ -98,6 +97,7 @@ public class UserEntity {
         user.updatedAt = LocalDateTime.now();
         return user;
     }
+
     public UserDTO toDto() {
         UserDTO dto = new UserDTO();
         dto.setUid(this.uid);
@@ -107,7 +107,18 @@ public class UserEntity {
         dto.setRole(this.role);
         dto.setLocation(this.location);
         dto.setCreatedAt(this.createdAt);
-        dto.setUpdatedAt(this.updatedAt)    ;
+        dto.setUpdatedAt(this.updatedAt);
         return dto;
     }
+
+    public UserEntity copyWith(UserEntity entity) {
+        UserEntity user = new UserEntity();
+
+        user.name = entity.getName() != null ? entity.getName() : this.name;
+        user.address = entity.getAddress() != null ? entity.getAddress() : this.address;
+        user.role = entity.getRole() != null ? entity.getRole() : this.role;
+        user.updatedAt = LocalDateTime.now();
+        return user;
+    }
+
 }

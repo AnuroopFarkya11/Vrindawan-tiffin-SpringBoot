@@ -45,8 +45,16 @@ public class UserController {
     @GetMapping("/id/{uid}")
     public ResponseEntity<?> getUserById(@PathVariable String uid) {
         logger.info("Received request to fetch user with UID: {}", uid);
-        UserDTO user = service.fetchUserById(uid);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        UserDTO userDTO = service.fetchUserById(uid);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    @PutMapping("id/{uid}")
+    public ResponseEntity<UserDTO> updateUserEntity(@PathVariable String uid, @RequestBody UserDTO userDTO) {
+        logger.info("Received request to update user with UID : {}", uid);
+        UserDTO updatedUserDTO = service.updateUser(uid,userDTO);
+        logger.info("User with UID: {} updated successfully", uid);
+        return new ResponseEntity<>(updatedUserDTO, HttpStatus.OK);
     }
 
 

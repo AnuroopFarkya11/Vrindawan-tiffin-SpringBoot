@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,6 +38,7 @@ public class UserService {
         return savedUser;
     }
 
+    @Transactional(readOnly = true)
     public List<UserDTO> fetchAllUsers() {
         logger.info("Fetching all users");
         List<UserEntity> users = userRepository.findAll();
@@ -54,6 +57,32 @@ public class UserService {
         }
 
     }
+
+    @Transactional
+    public UserDTO updateUser(String uid, UserDTO userDTO) {
+
+
+        UserEntity existingUser = userRepository.findById(uid).orElseThrow(() -> new UserNotFoundException("User with UID " + uid + " not found."));
+        // Update fields
+        if (userDTO.getName() != null) {
+            existingUser.setName(userDTO.getName());
+        }
+        if (userDTO.getAddress() != null) {
+            existingUser.setAddress(userDTO.getAddress());
+        }
+        if (userDTO.getNumber() != null) {
+            existingUser.setNumber(userDTO.getNumber());
+        }
+        if (userDTO.getRole() != null) {
+            existingUser.setRole(userDTO.getRole());
+        }
+        existingUser.setUpdatedAt(LocalDateTime.now());
+
+        UserEntity savedEntity = userRepository.save(existingUser);
+        logger.info("User with UID: {} updated successfully", uid);
+        return savedEntity.toDto();
+    }
+
 
 
 }
