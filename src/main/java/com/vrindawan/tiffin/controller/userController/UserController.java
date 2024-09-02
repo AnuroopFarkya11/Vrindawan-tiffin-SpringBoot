@@ -42,5 +42,12 @@ public class UserController {
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
+    @GetMapping("/id/{uid}")
+    public ResponseEntity<?> getUserById(@PathVariable String uid) {
+        logger.info("Received request to fetch user with UID: {}", uid);
+        UserDTO user = service.fetchUserById(uid);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
 
 }

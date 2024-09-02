@@ -1,5 +1,6 @@
 package com.vrindawan.tiffin.service;
 
+import com.vrindawan.tiffin.controller.userController.exception.UserNotFoundException;
 import com.vrindawan.tiffin.dto.UserDTO;
 import com.vrindawan.tiffin.controller.userController.exception.UserAlreadyExistsException;
 import com.vrindawan.tiffin.model.user.UserEntity;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -40,7 +42,18 @@ public class UserService {
         return users.stream().map(UserEntity::toDto).toList();
     }
 
+    @Transactional(readOnly = true)
+    public UserDTO fetchUserById(String uid) {
+        logger.info("Attempting to fetch user with id : {}", uid);
+        Optional<UserEntity> entity = userRepository.findById(uid);
+        if (entity.isPresent()) {
+            return entity.get().toDto();
+        } else {
+            logger.warn("No user found with id : {}", uid);
+            throw new UserNotFoundException("User with UID " + uid + " not found.");
+        }
 
+    }
 
 
 }
