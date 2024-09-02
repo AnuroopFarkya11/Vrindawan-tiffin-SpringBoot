@@ -1,35 +1,52 @@
 package com.vrindawan.tiffin.controller;
 
+import com.vrindawan.tiffin.dto.UserDTO;
+import com.vrindawan.tiffin.exception.ExceptionResponse;
+import com.vrindawan.tiffin.exception.UserAlreadyExistsException;
 import com.vrindawan.tiffin.model.user.UserEntity;
 import com.vrindawan.tiffin.service.UserService;
+import jakarta.validation.Valid;
+import javax.validation.ValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
+
 @RestController
 @RequestMapping("/user")
+@Validated
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService service;
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserEntity user) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO) {
+        logger.info("Attempting to create user with details: {}", userDTO);
         try {
-            user.setCreatedAt(LocalDateTime.now());
-            user.setUpdatedAt(LocalDateTime.now());
-            service.createUser(user);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            UserEntity user = service.createUser(userDTO);
+            logger.info("User created successfully with UID: {}", user.getUid());
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        } catch (UserAlreadyExistsException e) {
+            logger.warn("User creation failed: {}", e.getMessage());
+            return new ResponseEntity<>(new ExceptionResponse("User Already Exists", e.getMessage()), HttpStatus.CONFLICT);
+        } catch (ValidationException e) {
+            logger.warn("Validation failed: {}", e.getMessage());
+            return new ResponseEntity<>(new ExceptionResponse("Validation Error", e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.NO_CONTENT);
+            logger.error("An error occurred while creating an user: {}", e.getMessage());
+            return new ResponseEntity<>(new ExceptionResponse("Internal Server Error", e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
+
 
 }

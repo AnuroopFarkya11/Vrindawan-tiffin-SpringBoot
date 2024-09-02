@@ -1,21 +1,32 @@
-package com.vrindawan.tiffin.model.user;
+package com.vrindawan.tiffin.dto;
 
-import com.vrindawan.tiffin.dto.UserDTO;
 import com.vrindawan.tiffin.model.location.Location;
+import com.vrindawan.tiffin.model.user.UserRole;
+import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 
 import java.time.LocalDateTime;
 
-@Document(collection = "Users")
-public class UserEntity {
+public class UserDTO {
 
-    @Id
+
+    @NotNull(message = "User id can not be null")
     private String uid;
+
+
+    @NotEmpty(message = "Name cannot be empty")
     private String name;
+
+    @NotEmpty(message = "Address cannot be empty")
     private String address;
-    private long number;
+
+    @NotNull(message = "Number cannot be null")
+    private Long number;
+
+    @NotNull(message = "Role cannot be null, Select from USER OR ADMIN")
     private UserRole role;
+
     private Location location;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -24,7 +35,6 @@ public class UserEntity {
     public String getUid() {
         return uid;
     }
-
 
 
     public Location getLocation() {
@@ -85,17 +95,5 @@ public class UserEntity {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public static UserEntity fromDto(UserDTO userDto) {
-        UserEntity user = new UserEntity();
-        user.uid = userDto.getUid();
-        user.name = userDto.getName();
-        user.address = userDto.getAddress();
-        user.number = userDto.getNumber();
-        user.role = userDto.getRole();
-        user.createdAt = LocalDateTime.now();
-        user.updatedAt = LocalDateTime.now();
-        return user;
     }
 }
