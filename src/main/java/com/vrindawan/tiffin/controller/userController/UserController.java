@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/user")
@@ -29,6 +31,15 @@ public class UserController {
         UserEntity user = service.createUser(userDTO);
         logger.info("User created successfully with UID: {}", user.getUid());
         return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getUsers() {
+        logger.info("Attempting to fetch list of users");
+        List<UserDTO> userDTOList = service.fetchAllUsers();
+        logger.info("Fetched user successfully. There are {} users", userDTOList.size());
+
+        return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
 

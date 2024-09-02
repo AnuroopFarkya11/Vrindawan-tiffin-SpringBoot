@@ -106,6 +106,8 @@ public class UserEntity {
         dto.setNumber(this.number);
         dto.setRole(this.role);
         dto.setLocation(this.location);
+        dto.setCreatedAt(this.createdAt);
+        dto.setUpdatedAt(this.updatedAt)    ;
         return dto;
     }
 }
