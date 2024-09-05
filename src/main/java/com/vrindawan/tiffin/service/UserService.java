@@ -28,8 +28,8 @@ public class UserService {
     public UserEntity createUser(UserDTO userDTO) {
         logger.info("Attempting to create user with UID: {}", userDTO.getUid());
 
-        if (userRepository.existsById(userDTO.getUid())) {
-            throw new UserAlreadyExistsException("User with UID " + userDTO.getUid() + " already exists.");
+        if (userRepository.existsById(userDTO.getUid()) || userRepository.existsBynumber(userDTO.getNumber())) {
+            throw new UserAlreadyExistsException("User already exists.");
         }
         UserEntity user = UserEntity.fromDto(userDTO);
 
