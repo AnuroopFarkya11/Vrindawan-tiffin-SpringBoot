@@ -1,7 +1,6 @@
 package com.vrindawan.tiffin.service;
 
 import com.vrindawan.tiffin.controller.foodController.exception.FoodNotFoundException;
-import com.vrindawan.tiffin.dto.FoodDTO;
 import com.vrindawan.tiffin.model.food.FoodEntity;
 import com.vrindawan.tiffin.repository.FoodRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -41,17 +40,21 @@ public class FoodService {
     }
 
     @Transactional(readOnly = true)
-    public FoodEntity getFoodEntityByName(String name) {
-        Optional<FoodEntity> entity = repository.getByname(name);
-        if (entity.isPresent()) {
-            return entity.get();
+    public List<FoodEntity> getFoodEntityByName(String name) {
+        List<FoodEntity> entity = repository.searchByname(name);
+        if (!entity.isEmpty()) {
+            return entity;
         } else {
             throw new FoodNotFoundException("No Food entity found with " + name);
         }
+    }
 
-
-        
-
+    public void deleteFoodEntityByName(String name) {
+        if (repository.existsByname(name)) {
+            repository.deleteByname(name);
+        } else {
+            throw new FoodNotFoundException("No food entity found with name " + name);
+        }
     }
 
 

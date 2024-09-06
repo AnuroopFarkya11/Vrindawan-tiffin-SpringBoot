@@ -1,5 +1,6 @@
 package com.vrindawan.tiffin.controller.foodController;
 
+import com.vrindawan.tiffin.exception.ExceptionResponse;
 import com.vrindawan.tiffin.model.food.FoodEntity;
 import com.vrindawan.tiffin.repository.FoodRepository;
 import com.vrindawan.tiffin.service.FoodService;
@@ -31,8 +32,15 @@ public class FoodController {
 
     @GetMapping("{name}")
     public ResponseEntity<?> getFoodEntityByName(@PathVariable String name) {
-        FoodEntity entity = service.getFoodEntityByName(name);
+        List<FoodEntity> entity = service.getFoodEntityByName(name);
         return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteFoodEntityByName(@RequestParam String name) {
+        service.deleteFoodEntityByName(name);
+        final ExceptionResponse response = new ExceptionResponse("Food Item Deleted Successfully", "Item with name : " + name + " has been deleted");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
