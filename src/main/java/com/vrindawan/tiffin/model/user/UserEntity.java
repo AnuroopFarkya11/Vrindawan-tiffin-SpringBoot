@@ -4,6 +4,7 @@ import com.vrindawan.tiffin.dto.UserDTO;
 import com.vrindawan.tiffin.model.location.Location;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ public class UserEntity {
 
     @Id
     private String uid;
+    @Indexed(unique = true)
     @NonNull
     private String name;
     @NonNull
