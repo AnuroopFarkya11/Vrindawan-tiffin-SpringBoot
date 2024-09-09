@@ -8,6 +8,8 @@ import com.vrindawan.tiffin.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,8 @@ public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Transactional
     public UserEntity createUser(UserDTO userDTO) {
         logger.info("Attempting to create user with UID: {}", userDTO.getUid());
@@ -31,8 +35,9 @@ public class UserService {
         if (userRepository.existsById(userDTO.getUid()) || userRepository.existsBynumber(userDTO.getNumber())) {
             throw new UserAlreadyExistsException("User already exists.");
         }
-        UserEntity user = UserEntity.fromDto(userDTO);
 
+        UserEntity user = UserEntity.fromDto(userDTO);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         UserEntity savedUser = userRepository.save(user);
         logger.info("User created successfully with UID: {}", savedUser.getUid());
         return savedUser;
@@ -54,6 +59,18 @@ public class UserService {
         } else {
             logger.warn("No user found with id : {}", uid);
             throw new UserNotFoundException("User with UID " + uid + " not found.");
+        }
+
+    }
+
+    public UserDTO fetchUserByNumber(Long number) {
+        logger.info("Attempting to fetch user with number : {}", number);
+        Optional<UserEntity> entity = userRepository.findByNumber(number);
+        if (entity.isPresent()) {
+            return entity.get().toDto();
+        } else {
+            logger.warn("No user found with number : {}", number);
+            throw new UserNotFoundException("User with number " + number + " not found.");
         }
 
     }

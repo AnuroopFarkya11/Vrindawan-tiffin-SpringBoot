@@ -22,11 +22,18 @@ public class UserDTO {
     @NotEmpty(message = "Name cannot be empty")
     private String name;
 
+//    @NotEmpty(message = "Username cannot be empty")
+    private String userName;
+
     @NotEmpty(message = "Address cannot be empty")
     private String address;
 
     @NotNull(message = "Number cannot be null")
     private Long number;
+
+    @NotNull(message = "Password cannot be null")
+    private String password;
+
 
     @NotNull(message = "Role cannot be null, Select from USER OR ADMIN")
     private UserRole role;

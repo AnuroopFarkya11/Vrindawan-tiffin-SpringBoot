@@ -26,13 +26,7 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO) {
-        logger.info("Attempting to create user with details: {}", userDTO);
-        UserEntity user = service.createUser(userDTO);
-        logger.info("User created successfully with UID: {}", user.getUid());
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
-    }
+
 
     @GetMapping
     public ResponseEntity<?> getUsers() {

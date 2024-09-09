@@ -16,13 +16,20 @@ public class UserEntity {
 
     @Id
     private String uid;
-    @Indexed(unique = true)
+
     @NonNull
     private String name;
+
+
+    private String userName;
+
     @NonNull
     private String address;
     @NonNull
+    @Indexed(unique = true)
     private Long number;
+    @NonNull
+    private String password;
     @NonNull
     private UserRole role;
     private Location location;
@@ -35,8 +42,10 @@ public class UserEntity {
         UserEntity user = new UserEntity();
         user.uid = userDto.getUid();
         user.name = userDto.getName();
+        user.userName = userDto.getUserName();
         user.address = userDto.getAddress();
         user.number = userDto.getNumber();
+        user.password = userDto.getPassword();
         user.role = userDto.getRole();
         user.createdAt = LocalDateTime.now();
         user.updatedAt = LocalDateTime.now();
@@ -47,8 +56,10 @@ public class UserEntity {
         UserDTO dto = new UserDTO();
         dto.setUid(this.uid);
         dto.setName(this.name);
+        dto.setUserName(this.userName);
         dto.setAddress(this.address);
         dto.setNumber(this.number);
+        dto.setPassword(this.password);
         dto.setRole(this.role);
         dto.setLocation(this.location);
         dto.setCreatedAt(this.createdAt);
@@ -60,9 +71,11 @@ public class UserEntity {
         UserEntity user = new UserEntity();
 
         user.name = entity.getName() != null ? entity.getName() : this.name;
+        user.userName = entity.getUserName()!=null?entity.getUserName():this.userName;
         user.address = entity.getAddress() != null ? entity.getAddress() : this.address;
         user.role = entity.getRole() != null ? entity.getRole() : this.role;
         user.updatedAt = LocalDateTime.now();
+        user.password = entity.getPassword()!=null?entity.getPassword():this.password;
         return user;
     }
 
