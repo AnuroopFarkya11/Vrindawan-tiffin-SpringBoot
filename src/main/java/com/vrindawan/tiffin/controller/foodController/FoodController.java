@@ -18,11 +18,6 @@ public class FoodController {
     @Autowired
     private FoodService service;
 
-    @PostMapping
-    public ResponseEntity<?> createFoodEntity(@RequestBody FoodEntity entity) {
-        FoodEntity saved = service.createFoodEntity(entity);
-        return new ResponseEntity<FoodEntity>(saved, HttpStatus.CREATED);
-    }
 
     @GetMapping
     public ResponseEntity<List<FoodEntity>> getAllFoodEntity() {
@@ -34,13 +29,6 @@ public class FoodController {
     public ResponseEntity<?> getFoodEntityByName(@PathVariable String name) {
         List<FoodEntity> entity = service.getFoodEntityByName(name);
         return new ResponseEntity<>(entity, HttpStatus.OK);
-    }
-
-    @DeleteMapping
-    public ResponseEntity<?> deleteFoodEntityByName(@RequestParam String name) {
-        service.deleteFoodEntityByName(name);
-        final ExceptionResponse response = new ExceptionResponse("Food Item Deleted Successfully", "Item with name : " + name + " has been deleted");
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
