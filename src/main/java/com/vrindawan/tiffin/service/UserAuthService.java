@@ -4,7 +4,6 @@ import com.vrindawan.tiffin.model.user.UserEntity;
 import com.vrindawan.tiffin.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,7 +27,10 @@ public class UserAuthService implements UserDetailsService {
         log.info("loadUserByUsername parsed number : "+ parsedNumber);
 
 
-        Optional<UserEntity> optionalUser = repository.findByNumber(parsedNumber);
+
+
+
+        Optional<UserEntity> optionalUser = repository.findByphoneNumber(parsedNumber);
 
         if(optionalUser.isEmpty())
         {
@@ -40,15 +42,16 @@ public class UserAuthService implements UserDetailsService {
         log.info("loadUserByUsername user found : name " + userEntity.getName());
 
         return User.builder()
-                .username(userEntity.getNumber().toString())
+                .username(userEntity.getPhoneNumber().toString())
                 .password(userEntity.getPassword())
+                .roles(userEntity.getRole().toString())
                 .build();
     }
 
-    public UserDetails loadUserByNumber(Long number) throws UsernameNotFoundException{
+    /*public UserDetails loadUserByNumber(Long number) throws UsernameNotFoundException{
         log.info("loadUserByNumber invoked");
 
-        Optional<UserEntity> userEntityOptional = repository.findByNumber(number);
+        Optional<UserEntity> userEntityOptional = repository.findByPhoneNumber(number);
 
         if(userEntityOptional.isEmpty())
         {
@@ -57,12 +60,12 @@ public class UserAuthService implements UserDetailsService {
         UserEntity userEntity = userEntityOptional.get();
 
         return User.builder()
-                .username(userEntity.getNumber().toString())
+                .username(userEntity.getPhoneNumber().toString())
                 .password(userEntity.getPassword())
                 .build();
     }
 
-
+*/
 
 
 

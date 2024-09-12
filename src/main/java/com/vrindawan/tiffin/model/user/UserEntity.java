@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 @Document(collection = "Users")
 @Data
 @NoArgsConstructor
-public class UserEntity {
+public class
+
+UserEntity {
 
     @Id
     private String uid;
@@ -25,9 +27,11 @@ public class UserEntity {
 
     @NonNull
     private String address;
+
     @NonNull
     @Indexed(unique = true)
-    private Long number;
+    private Long phoneNumber;
+
     @NonNull
     private String password;
     @NonNull
@@ -44,7 +48,7 @@ public class UserEntity {
         user.name = userDto.getName();
         user.userName = userDto.getUserName();
         user.address = userDto.getAddress();
-        user.number = userDto.getNumber();
+        user.phoneNumber = userDto.getPhoneNumber();
         user.password = userDto.getPassword();
         user.role = userDto.getRole();
         user.createdAt = LocalDateTime.now();
@@ -58,7 +62,7 @@ public class UserEntity {
         dto.setName(this.name);
         dto.setUserName(this.userName);
         dto.setAddress(this.address);
-        dto.setNumber(this.number);
+        dto.setPhoneNumber(this.phoneNumber);
         dto.setPassword(this.password);
         dto.setRole(this.role);
         dto.setLocation(this.location);

@@ -5,6 +5,7 @@ import com.vrindawan.tiffin.dto.UserDTO;
 import com.vrindawan.tiffin.controller.userController.exception.UserAlreadyExistsException;
 import com.vrindawan.tiffin.model.user.UserEntity;
 import com.vrindawan.tiffin.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class UserService {
     @Autowired
@@ -32,8 +32,12 @@ public class UserService {
     public UserEntity createUser(UserDTO userDTO) {
         logger.info("Attempting to create user with UID: {}", userDTO.getUid());
 
-        if (userRepository.existsById(userDTO.getUid()) || userRepository.existsBynumber(userDTO.getNumber())) {
-            throw new UserAlreadyExistsException("User already exists.");
+        if (userRepository.existsById(userDTO.getUid())) {
+            throw new UserAlreadyExistsException("UID already exists.");
+        }
+
+        if (userRepository.existsByPhoneNumber(userDTO.getPhoneNumber())) {
+            throw new UserAlreadyExistsException("Phone number already exists.");
         }
 
         UserEntity user = UserEntity.fromDto(userDTO);
@@ -65,7 +69,10 @@ public class UserService {
 
     public UserDTO fetchUserByNumber(Long number) {
         logger.info("Attempting to fetch user with number : {}", number);
-        Optional<UserEntity> entity = userRepository.findByNumber(number);
+        logger.info("Runtime type : {}", number.getClass().getName());
+        Optional<UserEntity> entity = userRepository.findByphoneNumber(number);
+
+
         if (entity.isPresent()) {
             return entity.get().toDto();
         } else {
@@ -87,8 +94,8 @@ public class UserService {
         if (userDTO.getAddress() != null) {
             existingUser.setAddress(userDTO.getAddress());
         }
-        if (userDTO.getNumber() != null) {
-            existingUser.setNumber(userDTO.getNumber());
+        if (userDTO.getPhoneNumber() != null) {
+            existingUser.setPhoneNumber(userDTO.getPhoneNumber());
         }
         if (userDTO.getRole() != null) {
             existingUser.setRole(userDTO.getRole());

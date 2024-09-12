@@ -22,3 +22,5 @@ public class TiffinApplication {
 	}
 
 }
+
+//mongosh "mongodb+srv://cluster0.r1dfw.mongodb.net/" --apiVersion 1 --username anuroopf02

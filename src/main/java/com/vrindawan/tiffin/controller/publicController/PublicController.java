@@ -28,7 +28,7 @@ public class PublicController {
     }
 
     @GetMapping("/{number}")
-    public ResponseEntity<?> getUserByNumber(@PathVariable Long number) {
+    public ResponseEntity<?> getUserByNumber(@PathVariable Long  number) {
         UserDTO userDTO = service.fetchUserByNumber(number);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
 

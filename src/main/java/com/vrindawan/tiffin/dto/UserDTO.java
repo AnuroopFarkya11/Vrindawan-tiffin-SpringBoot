@@ -5,7 +5,6 @@ import com.vrindawan.tiffin.model.user.UserRole;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 
 import java.time.LocalDateTime;
@@ -29,7 +28,7 @@ public class UserDTO {
     private String address;
 
     @NotNull(message = "Number cannot be null")
-    private Long number;
+    private Long phoneNumber;
 
     @NotNull(message = "Password cannot be null")
     private String password;
