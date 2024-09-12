@@ -1,6 +1,7 @@
 package com.vrindawan.tiffin.dto;
 
 import com.vrindawan.tiffin.model.location.Location;
+import com.vrindawan.tiffin.model.order.OrderEntity;
 import com.vrindawan.tiffin.model.user.UserRole;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -36,8 +39,9 @@ public class UserDTO {
 
     @NotNull(message = "Role cannot be null, Select from USER OR ADMIN")
     private UserRole role;
-
     private Location location;
+
+    private List<OrderEntity> orderEntities = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

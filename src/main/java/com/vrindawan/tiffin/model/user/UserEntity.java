@@ -2,12 +2,18 @@ package com.vrindawan.tiffin.model.user;
 
 import com.vrindawan.tiffin.dto.UserDTO;
 import com.vrindawan.tiffin.model.location.Location;
-import lombok.*;
+import com.vrindawan.tiffin.model.order.OrderEntity;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "Users")
 @Data
@@ -37,6 +43,10 @@ UserEntity {
     @NonNull
     private UserRole role;
     private Location location;
+
+    @DBRef
+    private List<OrderEntity> orderEntities = new ArrayList<>();
+
     @NonNull
     private LocalDateTime createdAt;
     @NonNull
@@ -51,6 +61,7 @@ UserEntity {
         user.phoneNumber = userDto.getPhoneNumber();
         user.password = userDto.getPassword();
         user.role = userDto.getRole();
+        user.orderEntities = userDto.getOrderEntities();
         user.createdAt = LocalDateTime.now();
         user.updatedAt = LocalDateTime.now();
         return user;
@@ -65,6 +76,7 @@ UserEntity {
         dto.setPhoneNumber(this.phoneNumber);
         dto.setPassword(this.password);
         dto.setRole(this.role);
+        dto.setOrderEntities(this.orderEntities);
         dto.setLocation(this.location);
         dto.setCreatedAt(this.createdAt);
         dto.setUpdatedAt(this.updatedAt);
@@ -75,11 +87,11 @@ UserEntity {
         UserEntity user = new UserEntity();
 
         user.name = entity.getName() != null ? entity.getName() : this.name;
-        user.userName = entity.getUserName()!=null?entity.getUserName():this.userName;
+        user.userName = entity.getUserName() != null ? entity.getUserName() : this.userName;
         user.address = entity.getAddress() != null ? entity.getAddress() : this.address;
         user.role = entity.getRole() != null ? entity.getRole() : this.role;
         user.updatedAt = LocalDateTime.now();
-        user.password = entity.getPassword()!=null?entity.getPassword():this.password;
+        user.password = entity.getPassword() != null ? entity.getPassword() : this.password;
         return user;
     }
 
