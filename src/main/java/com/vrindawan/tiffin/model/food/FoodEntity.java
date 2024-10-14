@@ -25,7 +25,9 @@ public class FoodEntity {
     @Indexed(unique = true)
     @NonNull
     private String name;
+    private String hindiName;
     private String description;
+    private String hindiDescription;
     private double price;
     private String imageUrl;
     private boolean isAvailable;
@@ -67,7 +69,9 @@ public class FoodEntity {
         return FoodEntity.builder()
                 .id(dto.getId())
                 .name(dto.getName())
+                .hindiName(dto.getHindiName())
                 .description(dto.getDescription())
+                .hindiDescription(dto.getHindiDescription())
                 .price(dto.getPrice())
                 .imageUrl(dto.getImageUrl())
                 .isAvailable(dto.isAvailable())
@@ -110,7 +114,9 @@ public class FoodEntity {
         return FoodDTO.builder()
                 .id(this.id)
                 .name(this.name)
+                .hindiName(this.hindiName)
                 .description(this.description)
+                .hindiDescription(this.hindiDescription)
                 .price(this.price)
                 .imageUrl(this.imageUrl)
                 .isAvailable(this.isAvailable)

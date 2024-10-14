@@ -4,7 +4,6 @@ import com.vrindawan.tiffin.dto.UserDTO;
 import com.vrindawan.tiffin.exception.ExceptionResponse;
 import com.vrindawan.tiffin.model.food.FoodEntity;
 import com.vrindawan.tiffin.service.FoodService;
-import com.vrindawan.tiffin.service.UserAuthService;
 import com.vrindawan.tiffin.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/admin")
@@ -34,9 +35,14 @@ public class AdminController {
     }
 
     @PostMapping("/create-food")
-    public ResponseEntity<?> createFoodEntity(@RequestBody FoodEntity entity) {
-        FoodEntity saved = foodService.createFoodEntity(entity);
-        return new ResponseEntity<FoodEntity>(saved, HttpStatus.CREATED);
+    public ResponseEntity<?> createFoodEntity(@RequestBody List<FoodEntity> entities) {
+        List<FoodEntity> savedEntities = new ArrayList<>();
+        entities.forEach((entity -> {
+            FoodEntity savedEntity = foodService.createFoodEntity(entity);
+            savedEntities.add(savedEntity);
+        }));
+
+        return new ResponseEntity<List<FoodEntity>>(savedEntities, HttpStatus.CREATED);
     }
 
     @DeleteMapping

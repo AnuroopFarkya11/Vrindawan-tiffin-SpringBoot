@@ -19,7 +19,9 @@ public class FoodDTO {
 
     private ObjectId id;
     private String name;
+    private String hindiName;
     private String description;
+    private String hindiDescription;
     private double price;
     private String imageUrl;
     private boolean isAvailable;

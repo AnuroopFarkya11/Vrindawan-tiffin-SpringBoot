@@ -1,14 +1,16 @@
 package com.vrindawan.tiffin.service;
 
+import com.vrindawan.tiffin.controller.userController.exception.UserAlreadyExistsException;
 import com.vrindawan.tiffin.controller.userController.exception.UserNotFoundException;
 import com.vrindawan.tiffin.dto.UserDTO;
-import com.vrindawan.tiffin.controller.userController.exception.UserAlreadyExistsException;
 import com.vrindawan.tiffin.model.user.UserEntity;
 import com.vrindawan.tiffin.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -47,6 +49,16 @@ public class UserService {
         return savedUser;
     }
 
+//    public UserEntity loginUser() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String numberStr = authentication.getName();
+//        String password = authentication.getCredentials().toString();
+//        long parsed = Long.parseLong(numberStr);
+//        Optional<UserEntity> entity = userRepository.findByphoneNumber(parsed);
+//
+//
+//    }
+
     @Transactional(readOnly = true)
     public List<UserDTO> fetchAllUsers() {
         logger.info("Fetching all users");
@@ -67,9 +79,13 @@ public class UserService {
 
     }
 
-    public UserDTO fetchUserByNumber(Long number) {
+    public UserDTO fetchUserByNumber() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String numberStr = authentication.getName();
+        long number = Long.parseLong(numberStr);
         logger.info("Attempting to fetch user with number : {}", number);
-        logger.info("Runtime type : {}", number.getClass().getName());
+
+
         Optional<UserEntity> entity = userRepository.findByphoneNumber(number);
 
 

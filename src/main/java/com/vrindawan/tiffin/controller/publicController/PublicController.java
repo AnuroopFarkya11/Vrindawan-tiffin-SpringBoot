@@ -27,10 +27,15 @@ public class PublicController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{number}")
-    public ResponseEntity<?> getUserByNumber(@PathVariable Long  number) {
-        UserDTO userDTO = service.fetchUserByNumber(number);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
 
-    }
+
+
+
+
+//    @GetMapping("/{number}")
+//    public ResponseEntity<?> getUserByNumber(@PathVariable Long  number) {
+//        UserDTO userDTO = service.fetchUserByNumber(number);
+//        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+//
+//    }
 }

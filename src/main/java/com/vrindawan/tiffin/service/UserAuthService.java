@@ -22,21 +22,17 @@ public class UserAuthService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("loadUserByUsername invoked");
-        log.info("loadUserByUsername user name : "+ username);
+        log.info("loadUserByUsername user name : " + username);
         long parsedNumber = Long.parseLong(username);
-        log.info("loadUserByUsername parsed number : "+ parsedNumber);
-
-
-
+        log.info("loadUserByUsername parsed number : " + parsedNumber);
 
 
         Optional<UserEntity> optionalUser = repository.findByphoneNumber(parsedNumber);
 
-        if(optionalUser.isEmpty())
-        {
-            log.info("loadUserByUsername user not found: "+ parsedNumber);
+        if (optionalUser.isEmpty()) {
+            log.info("loadUserByUsername user not found: " + parsedNumber);
 
-            throw  new UsernameNotFoundException("User not found with number " + parsedNumber);
+            throw new UsernameNotFoundException("User not found with number " + parsedNumber);
         }
         UserEntity userEntity = optionalUser.get();
         log.info("loadUserByUsername user found : name " + userEntity.getName());
@@ -66,8 +62,6 @@ public class UserAuthService implements UserDetailsService {
     }
 
 */
-
-
 
 
 }
