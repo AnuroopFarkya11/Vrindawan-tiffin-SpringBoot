@@ -107,8 +107,8 @@ public class UserService {
         if (userDTO.getName() != null) {
             existingUser.setName(userDTO.getName());
         }
-        if (userDTO.getAddress() != null) {
-            existingUser.setAddress(userDTO.getAddress());
+        if (userDTO.getAddresses() != null) {
+            existingUser.setAddresses(userDTO.getAddresses());
         }
         if (userDTO.getPhoneNumber() != null) {
             existingUser.setPhoneNumber(userDTO.getPhoneNumber());
