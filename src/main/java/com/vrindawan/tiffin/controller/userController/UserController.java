@@ -1,5 +1,6 @@
 package com.vrindawan.tiffin.controller.userController;
 
+import com.vrindawan.tiffin.dto.AddressDTO;
 import com.vrindawan.tiffin.dto.UserDTO;
 import com.vrindawan.tiffin.exception.ExceptionResponse;
 import com.vrindawan.tiffin.service.UserService;
@@ -52,6 +53,12 @@ public class UserController {
         service.deleteUserById(uid);
         return new ResponseEntity<>(new ExceptionResponse("User deleted successfully", "User with UID: " + uid + " was deleted"), HttpStatus.OK);
 
+    }
+
+    @PostMapping("/addAddress")
+    public ResponseEntity<?> addUserAddress(@RequestBody AddressDTO addressDTO) {
+        service.addAddress(addressDTO);
+        return new ResponseEntity<>("Address Added Successfully", HttpStatus.OK);
     }
 
 

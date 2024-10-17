@@ -1,6 +1,6 @@
 package com.vrindawan.tiffin.model.user;
 
-import com.vrindawan.tiffin.dto.UserAddressDTO;
+import com.vrindawan.tiffin.dto.AddressDTO;
 import com.vrindawan.tiffin.dto.UserDTO;
 import com.vrindawan.tiffin.model.location.Location;
 import com.vrindawan.tiffin.model.order.OrderEntity;
@@ -32,8 +32,8 @@ UserEntity {
 
     private String userName;
 
-    @NonNull
-    private List<UserAddressDTO> addresses;
+    @DBRef
+    private List<Address> addresses=new ArrayList<>();
 
     @NonNull
     @Indexed(unique = true)
@@ -54,11 +54,13 @@ UserEntity {
     private LocalDateTime updatedAt;
 
     public static UserEntity fromDto(UserDTO userDto) {
+        List<Address> userAddresses = userDto.getAddresses().stream().map(Address::fromDto).toList();
+
         UserEntity user = new UserEntity();
         user.uid = userDto.getUid();
         user.name = userDto.getName();
         user.userName = userDto.getUserName();
-        user.addresses = userDto.getAddresses();
+        user.addresses = userAddresses;
         user.phoneNumber = userDto.getPhoneNumber();
         user.password = userDto.getPassword();
         user.role = userDto.getRole();
@@ -69,11 +71,14 @@ UserEntity {
     }
 
     public UserDTO toDto() {
+
+        List<AddressDTO> addressDTOS = this.addresses.stream().map(Address::toDto).toList();
+
         UserDTO dto = new UserDTO();
         dto.setUid(this.uid);
         dto.setName(this.name);
         dto.setUserName(this.userName);
-        dto.setAddresses(this.addresses);
+        dto.setAddresses(addressDTOS);
         dto.setPhoneNumber(this.phoneNumber);
         dto.setPassword(this.password);
         dto.setRole(this.role);

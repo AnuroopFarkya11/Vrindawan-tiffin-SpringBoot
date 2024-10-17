@@ -2,8 +2,11 @@ package com.vrindawan.tiffin.service;
 
 import com.vrindawan.tiffin.controller.userController.exception.UserAlreadyExistsException;
 import com.vrindawan.tiffin.controller.userController.exception.UserNotFoundException;
+import com.vrindawan.tiffin.dto.AddressDTO;
 import com.vrindawan.tiffin.dto.UserDTO;
+import com.vrindawan.tiffin.model.user.Address;
 import com.vrindawan.tiffin.model.user.UserEntity;
+import com.vrindawan.tiffin.repository.AddressRepository;
 import com.vrindawan.tiffin.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -25,6 +28,9 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    AddressRepository addressRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -107,9 +113,9 @@ public class UserService {
         if (userDTO.getName() != null) {
             existingUser.setName(userDTO.getName());
         }
-        if (userDTO.getAddresses() != null) {
-            existingUser.setAddresses(userDTO.getAddresses());
-        }
+//        if (userDTO.getAddresses() != null) {
+//            existingUser.setAddresses(userDTO.getAddresses());
+//        }
         if (userDTO.getPhoneNumber() != null) {
             existingUser.setPhoneNumber(userDTO.getPhoneNumber());
         }
@@ -132,6 +138,27 @@ public class UserService {
         } else {
             throw new UserNotFoundException("User with UID " + uid + " not found.");
         }
+    }
+
+
+    @Transactional
+    public void addAddress(AddressDTO addressDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String numberStr = authentication.getName();
+        long number = Long.parseLong(numberStr);
+        logger.info("Attempting add address to user : {}", number);
+
+        Optional<UserEntity> entity = userRepository.findByphoneNumber(number);
+
+        if (entity.isPresent()) {
+            UserEntity user = entity.get();
+            Address address = Address.fromDto(addressDTO);
+            Address savedAddress = addressRepository.save(address);
+            user.getAddresses().add(savedAddress);
+            userRepository.save(user);
+            return;
+        }
+        throw new UserNotFoundException("Unable to find user");
     }
 
 

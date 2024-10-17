@@ -28,7 +28,7 @@ public class UserDTO {
     private String userName;
 
 //    @NotEmpty(message = "Address cannot be empty")
-    private List<UserAddressDTO> addresses;
+    private List<AddressDTO> addresses;
 
     @NotNull(message = "Number cannot be null")
     private Long phoneNumber;
