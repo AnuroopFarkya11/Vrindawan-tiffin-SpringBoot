@@ -3,16 +3,16 @@ package com.vrindawan.tiffin.service;
 import com.vrindawan.tiffin.controller.userController.exception.UserNotFoundException;
 import com.vrindawan.tiffin.dto.OrderDTO;
 import com.vrindawan.tiffin.model.food.FoodEntity;
+import com.vrindawan.tiffin.model.food.FoodItem;
 import com.vrindawan.tiffin.model.order.OrderEntity;
 import com.vrindawan.tiffin.model.order.OrderStatus;
 import com.vrindawan.tiffin.model.user.UserEntity;
+import com.vrindawan.tiffin.repository.AddressRepository;
 import com.vrindawan.tiffin.repository.OrderRepository;
 import com.vrindawan.tiffin.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +31,9 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     @Transactional
     public OrderEntity createOrder(OrderDTO orderDTO) {
         log.info("Attempting to create order ");
@@ -41,9 +44,10 @@ public class OrderService {
         Optional<UserEntity> user = userRepository.findByphoneNumber(number);
 
         if (user.isPresent()) {
+
             OrderEntity orderEntity = OrderEntity.builder()
                     .uid(user.get().getUid())
-                    .items(orderDTO.getFoodItems().stream().map(FoodEntity::fromDto).toList())
+                    .items(orderDTO.getFoodItems())
                     .ordTime(LocalDateTime.now())
                     .deliveryAddress(orderDTO.getDeliveryAddress())
                     .paymentStatus(orderDTO.getPaymentStatus())

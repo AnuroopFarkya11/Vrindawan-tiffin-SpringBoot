@@ -1,7 +1,7 @@
 package com.vrindawan.tiffin.service;
 
 import com.vrindawan.tiffin.controller.foodController.exception.FoodNotFoundException;
-import com.vrindawan.tiffin.model.food.FoodEntity;
+import com.vrindawan.tiffin.model.food.FoodItem;
 import com.vrindawan.tiffin.repository.FoodRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @Slf4j
@@ -21,39 +20,39 @@ public class FoodService {
 
 
     @Transactional
-    public FoodEntity createFoodEntity(FoodEntity entity) {
+    public FoodItem createFoodItem(FoodItem entity) {
         log.info("Attempting to create food entity");
         entity.setCreatedAt(LocalDateTime.now());
         entity.setUpdatedAt(LocalDateTime.now());
-        FoodEntity savedEntity = repository.save(entity);
+        FoodItem savedEntity = repository.save(entity);
         log.info("Food Item create successfully with id : {}", savedEntity.getId());
         return savedEntity;
     }
 
     @Transactional(readOnly = true)
-    public List<FoodEntity> getAllFoodEntities() {
+    public List<FoodItem> getAllFoodItems() {
         log.info("Attempting to get list of food entities");
-        List<FoodEntity> foodEntityList = repository.findAll();
-        log.info("Food entities fetched successfully. {} entities", foodEntityList.size());
-        return foodEntityList;
+        List<FoodItem> foodItemList = repository.findAll();
+        log.info("Food entities fetched successfully. {} entities", foodItemList.size());
+        return foodItemList;
 
     }
 
     @Transactional(readOnly = true)
-    public List<FoodEntity> getFoodEntityByName(String name) {
-        List<FoodEntity> entity = repository.searchByname(name);
-        if (!entity.isEmpty()) {
-            return entity;
+    public List<FoodItem> getFoodItemByName(String name) {
+        List<FoodItem> Item = repository.searchByname(name);
+        if (!Item.isEmpty()) {
+            return Item;
         } else {
-            throw new FoodNotFoundException("No Food entity found with " + name);
+            throw new FoodNotFoundException("No Food Item found with " + name);
         }
     }
 
-    public void deleteFoodEntityByName(String name) {
+    public void deleteFoodItemByName(String name) {
         if (repository.existsByname(name)) {
             repository.deleteByname(name);
         } else {
-            throw new FoodNotFoundException("No food entity found with name " + name);
+            throw new FoodNotFoundException("No food Item found with name " + name);
         }
     }
 

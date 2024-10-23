@@ -1,8 +1,6 @@
 package com.vrindawan.tiffin.controller.foodController;
 
-import com.vrindawan.tiffin.exception.ExceptionResponse;
-import com.vrindawan.tiffin.model.food.FoodEntity;
-import com.vrindawan.tiffin.repository.FoodRepository;
+import com.vrindawan.tiffin.model.food.FoodItem;
 import com.vrindawan.tiffin.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,14 +18,14 @@ public class FoodController {
 
 
     @GetMapping
-    public ResponseEntity<List<FoodEntity>> getAllFoodEntity() {
-        List<FoodEntity> list = service.getAllFoodEntities();
+    public ResponseEntity<List<FoodItem>> getAllFoodEntity() {
+        List<FoodItem> list = service.getAllFoodItems();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @GetMapping("{name}")
     public ResponseEntity<?> getFoodEntityByName(@PathVariable String name) {
-        List<FoodEntity> entity = service.getFoodEntityByName(name);
+        List<FoodItem> entity = service.getFoodItemByName(name);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 

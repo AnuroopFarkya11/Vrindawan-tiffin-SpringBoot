@@ -1,8 +1,10 @@
 package com.vrindawan.tiffin.dto;
 
+import com.vrindawan.tiffin.model.food.FoodEntity;
 import com.vrindawan.tiffin.model.order.OrderStatus;
 import com.vrindawan.tiffin.model.order.PaymentMethod;
 import com.vrindawan.tiffin.model.order.PaymentStatus;
+import com.vrindawan.tiffin.model.user.Address;
 import jakarta.validation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.DecimalMin;
@@ -27,7 +29,8 @@ public class OrderDTO {
     private String userId;
 
     @NotEmpty(message = "Order must have at least one food item")
-    private List<@Valid FoodDTO> foodItems;
+//    private List<@Valid FoodDTO> foodItems;
+    private List<FoodEntity> foodItems;
 
     @NotNull(message = "Order time cannot be null")
     private LocalDateTime orderTime;
@@ -40,7 +43,7 @@ public class OrderDTO {
     private BigDecimal totalAmount;
 
     @NotBlank(message = "Delivery address cannot be blank")
-    private String deliveryAddress;
+    private Address deliveryAddress;
 
     @NotBlank(message = "Payment status cannot be blank")
     private PaymentStatus paymentStatus; // Example: PAID, PENDING

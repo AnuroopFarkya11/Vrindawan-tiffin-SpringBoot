@@ -2,7 +2,7 @@ package com.vrindawan.tiffin.controller.adminController;
 
 import com.vrindawan.tiffin.dto.UserDTO;
 import com.vrindawan.tiffin.exception.ExceptionResponse;
-import com.vrindawan.tiffin.model.food.FoodEntity;
+import com.vrindawan.tiffin.model.food.FoodItem;
 import com.vrindawan.tiffin.service.FoodService;
 import com.vrindawan.tiffin.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,19 +35,19 @@ public class AdminController {
     }
 
     @PostMapping("/create-food")
-    public ResponseEntity<?> createFoodEntity(@RequestBody List<FoodEntity> entities) {
-        List<FoodEntity> savedEntities = new ArrayList<>();
+    public ResponseEntity<?> createFoodEntity(@RequestBody List<FoodItem> entities) {
+        List<FoodItem> savedEntities = new ArrayList<>();
         entities.forEach((entity -> {
-            FoodEntity savedEntity = foodService.createFoodEntity(entity);
+            FoodItem savedEntity = foodService.createFoodItem(entity);
             savedEntities.add(savedEntity);
         }));
 
-        return new ResponseEntity<List<FoodEntity>>(savedEntities, HttpStatus.CREATED);
+        return new ResponseEntity<List<FoodItem>>(savedEntities, HttpStatus.CREATED);
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteFoodEntityByName(@RequestParam String name) {
-        foodService.deleteFoodEntityByName(name);
+        foodService.deleteFoodItemByName(name);
         final ExceptionResponse response = new ExceptionResponse("Food Item Deleted Successfully", "Item with name : " + name + " has been deleted");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
