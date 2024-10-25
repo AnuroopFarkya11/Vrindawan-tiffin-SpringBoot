@@ -18,7 +18,7 @@ import java.util.Map;
 public class FoodDTO {
 
     private ObjectId id;
-    private String name;
+    private String foodName;
     private String hindiName;
     private String description;
     private String hindiDescription;

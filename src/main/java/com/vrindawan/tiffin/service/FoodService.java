@@ -40,7 +40,7 @@ public class FoodService {
 
     @Transactional(readOnly = true)
     public List<FoodItem> getFoodItemByName(String name) {
-        List<FoodItem> Item = repository.searchByname(name);
+        List<FoodItem> Item = repository.searchByfoodName(name);
         if (!Item.isEmpty()) {
             return Item;
         } else {
@@ -49,8 +49,8 @@ public class FoodService {
     }
 
     public void deleteFoodItemByName(String name) {
-        if (repository.existsByname(name)) {
-            repository.deleteByname(name);
+        if (repository.existsByfoodName(name)) {
+            repository.deleteByfoodName(name);
         } else {
             throw new FoodNotFoundException("No food Item found with name " + name);
         }

@@ -3,6 +3,7 @@ package com.vrindawan.tiffin.controller.userController;
 import com.vrindawan.tiffin.dto.AddressDTO;
 import com.vrindawan.tiffin.dto.UserDTO;
 import com.vrindawan.tiffin.exception.ExceptionResponse;
+import com.vrindawan.tiffin.model.user.Address;
 import com.vrindawan.tiffin.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -57,8 +58,8 @@ public class UserController {
 
     @PostMapping("/addAddress")
     public ResponseEntity<?> addUserAddress(@RequestBody AddressDTO addressDTO) {
-        service.addAddress(addressDTO);
-        return new ResponseEntity<>("Address Added Successfully", HttpStatus.OK);
+        Address address =service.addAddress(addressDTO);
+        return new ResponseEntity<>(address, HttpStatus.OK);
     }
 
 

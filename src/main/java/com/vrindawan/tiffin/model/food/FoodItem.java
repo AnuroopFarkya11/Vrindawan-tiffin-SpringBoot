@@ -22,9 +22,7 @@ import java.util.Map;
 public class FoodItem {
     @Id
     private ObjectId id;
-    @Indexed(unique = true)
-    @NonNull
-    private String name;
+    private String foodName;
     private String hindiName;
     private String description;
     private String hindiDescription;
@@ -68,7 +66,7 @@ public class FoodItem {
     public static FoodItem fromDto(FoodDTO dto) {
         return FoodItem.builder()
                 .id(dto.getId())
-                .name(dto.getName())
+                .foodName(dto.getFoodName())
                 .hindiName(dto.getHindiName())
                 .description(dto.getDescription())
                 .hindiDescription(dto.getHindiDescription())
@@ -113,7 +111,7 @@ public class FoodItem {
     public FoodDTO toDto() {
         return FoodDTO.builder()
                 .id(this.id)
-                .name(this.name)
+                .foodName(this.foodName)
                 .hindiName(this.hindiName)
                 .description(this.description)
                 .hindiDescription(this.hindiDescription)

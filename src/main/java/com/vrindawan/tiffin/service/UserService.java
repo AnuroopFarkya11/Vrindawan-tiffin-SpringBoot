@@ -142,7 +142,7 @@ public class UserService {
 
 
     @Transactional
-    public void addAddress(AddressDTO addressDTO) {
+    public Address addAddress(AddressDTO addressDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String numberStr = authentication.getName();
         long number = Long.parseLong(numberStr);
@@ -156,7 +156,7 @@ public class UserService {
             Address savedAddress = addressRepository.save(address);
             user.getAddresses().add(savedAddress);
             userRepository.save(user);
-            return;
+            return savedAddress;
         }
         throw new UserNotFoundException("Unable to find user");
     }

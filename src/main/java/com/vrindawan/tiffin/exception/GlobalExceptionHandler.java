@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception e) {
-        logger.error("Something went wrong {}", e.getMessage());
+        logger.error("Something went wrong {} \n {}", e.getMessage(),e.getStackTrace());
         return new ResponseEntity<>(new ExceptionResponse("Internal Server Error", e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

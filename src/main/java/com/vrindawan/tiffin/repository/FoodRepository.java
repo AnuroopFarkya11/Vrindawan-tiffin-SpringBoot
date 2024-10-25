@@ -10,7 +10,7 @@ import java.util.List;
 public interface FoodRepository extends MongoRepository<FoodItem, ObjectId> {
 
     @Query("{ 'name': { $regex: ?0, $options: 'i' } }")
-    public List<FoodItem> searchByname(String name);
-    public void deleteByname(String name);
-    public boolean existsByname(String name);
+    public List<FoodItem> searchByfoodName(String name);
+    public void deleteByfoodName(String name);
+    public boolean existsByfoodName(String name);
 }

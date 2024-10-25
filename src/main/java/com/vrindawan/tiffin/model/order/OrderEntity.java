@@ -19,15 +19,15 @@ import java.util.List;
 @Data
 @Slf4j
 @Document(collection = "Order")
-@Builder
 public class OrderEntity {
 
     @Id
-    private ObjectId ordId;
+    private ObjectId id;
+    private String odrId = new ObjectId().toHexString();
     private String uid;
     private List<FoodEntity> items = new ArrayList<>();
     private LocalDateTime ordTime;
-    private OrderStatus status;
+    private OrderStatus status=OrderStatus.PENDING;
     private BigDecimal totalAmount;
     @DBRef
     private Address deliveryAddress;
@@ -41,5 +41,5 @@ public class OrderEntity {
     private BigDecimal taxAmount;
     private LocalDateTime orderCompletionTime;
     private String orderTrackingId;
-    private boolean isCancelled;
+    private boolean isCancelled=false;
 }

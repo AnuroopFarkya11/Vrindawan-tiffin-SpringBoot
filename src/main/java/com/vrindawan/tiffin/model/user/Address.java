@@ -2,6 +2,7 @@ package com.vrindawan.tiffin.model.user;
 
 import com.vrindawan.tiffin.dto.AddressDTO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
@@ -13,10 +14,13 @@ import java.time.LocalDateTime;
 @Document(collection = "UserAddresses")
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Address {
 
     @Id
     private ObjectId id;
+
+    private String addressId = new ObjectId().toHexString();
 
     @NonNull
     private String name;
@@ -50,6 +54,7 @@ public class Address {
     public static Address fromDto(AddressDTO addressDto) {
         Address address = new Address();
         address.id = addressDto.getId();
+        address.addressId = addressDto.getAddressId();
         address.name = addressDto.getName();
         address.street = addressDto.getStreet();
         address.city = addressDto.getCity();
@@ -66,6 +71,7 @@ public class Address {
     public AddressDTO toDto() {
         AddressDTO dto = new AddressDTO();
         dto.setId(this.id);
+        dto.setAddressId(this.addressId);
         dto.setName(this.name);
         dto.setStreet(this.street);
         dto.setCity(this.city);
