@@ -28,6 +28,12 @@ public class PublicController {
     }
 
 
+    @GetMapping("/darbar")
+    public ResponseEntity<?> happyBdayDarbar(){
+        return new ResponseEntity<>("Happy Birthday Darbar",HttpStatus.OK);
+    }
+
+
 
 
 
