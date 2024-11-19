@@ -25,7 +25,6 @@ public class OrderEntity {
     private ObjectId id;
     private String odrId = new ObjectId().toHexString();
     private String uid;
-    @DBRef
     private List<FoodEntity> items = new ArrayList<>();
     private LocalDateTime ordTime;
     private OrderStatus status=OrderStatus.PENDING;
