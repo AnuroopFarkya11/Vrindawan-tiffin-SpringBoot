@@ -83,7 +83,9 @@ public class OrderService {
         if(user.isPresent())
         {
             String uid = user.get().getUid();
-            return orderRepository.findByuid(uid);
+            List<OrderEntity> order = orderRepository.findByuid(uid);
+            return order;
+
         }
         throw new UserNotFoundException("Unable to find user while fetching order list");
     }
