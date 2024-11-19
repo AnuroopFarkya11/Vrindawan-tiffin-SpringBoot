@@ -57,6 +57,9 @@ public class OrderService {
                 orderEntity.setDeliveryAddress(savedAddress);
                 userEntity.getAddresses().add(address);
             }
+            else{
+                orderEntity.setDeliveryAddress(address);
+            }
             orderEntity.setUid(userEntity.getUid());
             orderEntity.setItems(orderDTO.getFoodItems());
             orderEntity.setOrdTime(LocalDateTime.now());
