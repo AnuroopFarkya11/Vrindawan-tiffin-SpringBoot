@@ -92,9 +92,9 @@ public class OrderService {
 
 
     @Transactional
-    public OrderEntity getOrderById(String ordId) {
+    public OrderEntity getOrderById(int ordId) {
 
-        if (ordId == null || ordId.isEmpty()) {
+        if (ordId == 0) {
             throw new InvalidOrderIdException();
         }
 
@@ -111,7 +111,7 @@ public class OrderService {
         List<OrderEntity> orderEntities = userEntity.getOrderEntities();
 
         for (OrderEntity orderEntity : orderEntities) {
-            if (orderEntity.getOdrId().equals(ordId)) {
+            if (orderEntity.getOdrId() == ordId) {
                 return orderEntity;
             }
         }

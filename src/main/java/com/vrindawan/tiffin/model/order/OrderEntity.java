@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Data
 @Slf4j
@@ -23,7 +24,7 @@ public class OrderEntity {
 
     @Id
     private ObjectId id;
-    private String odrId = new ObjectId().toHexString();
+    private int odrId = new Random().nextInt();
     private String uid;
     private List<FoodEntity> items = new ArrayList<>();
     private LocalDateTime ordTime;
